@@ -11,7 +11,7 @@ model = joblib.load("lr_stroke_model.pkl")
 scaler = joblib.load('scaler.pkl')
 
 # Create App Headline
-st.title("Are You At Risk of Having Stroke? :health_worker:")
+st.title("Are You At Risk of Having Stroke? ")
 
 # Create health information input options
 gender = st.selectbox("What is Your Gender?", ["Male", "Female", "Other"])
