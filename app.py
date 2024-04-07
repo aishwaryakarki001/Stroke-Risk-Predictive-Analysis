@@ -5,7 +5,7 @@ import pandas as pd
 import joblib
 
 # Import ML model
-model = joblib.load("lr_stroke_model.pkl")
+model = joblib.load("Logistic_regression_model.joblib")
 
 #import Scaler
 scaler = joblib.load('scaler.pkl')
