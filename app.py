@@ -3,10 +3,12 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import joblib
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import StandardScaler
 
 # Import ML model
-model = joblib.load("Logistic_regression_model.joblib")
-
+model = joblib.load("random_forest_classifier_model.joblib")
+my_scaler = joblib.load('scaler.save')
 
 # Create App Headline
 st.title("Are You At Risk of Having Stroke? ")
@@ -24,6 +26,8 @@ bmi = st.select_slider("BMI", range(10,101))
 smoking_status = st.selectbox("Smoking Status", ["0", '1', "2", "3"])
 
 
+#data[numerical[:-1]] = StandardScaler().fit_transform(data[numerical[:-1]])
+
 input_data = {
     'gender': 1 if gender == "Male" else 0,  
     'age': age,
@@ -40,12 +44,15 @@ input_data = {
 
 # Convert to DataFrame
 input_df = pd.DataFrame([input_data])
+numerical = input_df[['age', 'hypertension', 'heart_disease', 'avg_glucose_level', 'bmi']].columns.tolist()
+df_scaled = input_df(my_scaler.fit_transform(input_df), columns = numerical)
+#input_df[numerical] = my_scaler.transform(input_df[numerical])
 
 # Model Prediction
 if st.button("Assess Your Risk"):
 
     # Predict
-    prediction = model.predict(input_df)
+    prediction = model.predict(df_scaled)
     
     # Output the result
     if prediction[0] == 1:
